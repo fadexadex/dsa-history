@@ -1,0 +1,57 @@
+name: Submit DSA solution
+description: Paste a LeetCode / practice solution. Cursor automation formats it and commits it to the repo.
+title: "dsa: "
+labels: ["dsa-submit"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Paste your solution below — messy / unformatted code is fine.
+
+        The automation will:
+        1. Put the file in the right `day-N/` folder
+        2. Name the file from the main function (or problem name)
+        3. Clean formatting to match the repo
+        4. Commit + push, then comment on this issue
+  - type: dropdown
+    id: day_mode
+    attributes:
+      label: Day folder
+      description: Where should this solution go?
+      options:
+        - Latest day folder (default)
+        - Create next day folder
+        - Specific day (fill in below)
+      default: 0
+    validations:
+      required: true
+  - type: input
+    id: day_number
+    attributes:
+      label: Specific day number
+      description: Only needed if you chose "Specific day" above (e.g. 19)
+      placeholder: "19"
+  - type: input
+    id: problem_name
+    attributes:
+      label: Problem name (optional)
+      description: LeetCode title or preferred filename stem. If empty, the main function name is used.
+      placeholder: merge-sorted-array
+  - type: textarea
+    id: code
+    attributes:
+      label: Solution code
+      description: Paste Python (or notes + code). Pseudocode comments from Excalidraw are OK.
+      render: python
+      placeholder: |
+        class Solution(object):
+            def merge(self, nums1, m, nums2, n):
+                ...
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes (optional)
+      description: Approach, complexity, or anything else to keep near the solution as comments.
+      placeholder: Two-pointer merge from the end. O(m+n) time, O(1) space.
