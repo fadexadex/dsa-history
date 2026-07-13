@@ -1,0 +1,46 @@
+name: Ensure DSA inbox labels
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  labels:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create dsa-submit and processed labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = [
+              {
+                name: 'dsa-submit',
+                color: '0E8A16',
+                description: 'Paste DSA solution; Cursor automation will commit it',
+              },
+              {
+                name: 'processed',
+                color: 'BFDADC',
+                description: 'Solution has been committed to the repo',
+              },
+            ];
+            for (const label of labels) {
+              try {
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ...label,
+                });
+                console.log(`Created label: ${label.name}`);
+              } catch (error) {
+                if (error.status === 422) {
+                  console.log(`Label already exists: ${label.name}`);
+                } else {
+                  throw error;
+                }
+              }
+            }
