@@ -25,15 +25,18 @@ Trigger context: a GitHub issue was labeled `dsa-submit` (or someone asked you t
 
 Follow AGENTS.md in the repo exactly:
 
-1. Read the issue title + body (day mode, day number, problem name, code, notes).
-2. Write a cleaned Python file into the correct day-N/ folder.
-3. Filename = problem name (kebab-case) if provided, else main function/method name (kebab-case) + .py. No spaces.
-4. Commit and push to master. Prefer commit message like `Add <stem>` (casual messages are also fine).
-5. Comment on the issue with the file path + commit link, add `processed` if possible, and close the issue.
+1. Read the issue title + body (day mode, day number, solutions, notes).
+2. One issue may contain MULTIPLE solutions for the SAME day. Split on lines that are only `---`. Optional per-block headers: `# name` or `problem: name`.
+3. Write one cleaned Python file per solution into the same day-N/ folder.
+4. Filename = problem name (kebab-case) if provided, else main function/method name (kebab-case) + .py. No spaces.
+5. Commit all files (one commit preferred) and push to master. Prefer `Add <stem>` or `Add <stem1>, <stem2>`.
+6. Comment on the issue listing every file path + commit link, add `processed` if possible, and close the issue.
 
 If the issue has no code, comment asking for a paste and stop.
 Do not refactor unrelated files.
 ```
+
+If you already created the automation, **update its Agent Instructions** to the prompt above so multi-solution issues work.
 
 ## Create the labels (one-time, if missing)
 
@@ -49,10 +52,10 @@ The issue form also requests `dsa-submit` automatically when you use the templat
 ## How to use it every day
 
 1. Open [New issue](https://github.com/fadexadex/dsa-history/issues/new/choose).
-2. Choose **Submit DSA solution**.
-3. Paste your code (messy is fine). Optionally set day / problem name.
+2. Choose **Submit DSA solution(s)**.
+3. Paste one or more solutions. Separate problems with a line that is only `---`. Optionally start each block with `# problem-name`.
 4. Submit the issue — it should already have the `dsa-submit` label.
-5. Wait for the Cursor automation to commit the file and comment on the issue.
+5. Wait for the Cursor automation to commit the file(s) and comment on the issue.
 
 ### Manual fallback (no automation)
 

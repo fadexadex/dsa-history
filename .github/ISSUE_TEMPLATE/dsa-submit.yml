@@ -1,23 +1,28 @@
-name: Submit DSA solution
-description: Paste a LeetCode / practice solution. Cursor automation formats it and commits it to the repo.
+name: Submit DSA solution(s)
+description: Paste one or more LeetCode / practice solutions for a single day. Cursor automation formats and commits them all.
 title: "dsa: "
 labels: ["dsa-submit"]
 body:
   - type: markdown
     attributes:
       value: |
-        Paste your solution below — messy / unformatted code is fine.
+        Paste one **or more** solutions below — messy / unformatted code is fine.
+
+        All solutions in this issue go into the **same** `day-N/` folder.
+
+        **Multiple problems:** separate each solution with a line that is only `---`.
+        Optionally start each block with a problem name on its own line (`# two-sum` or `problem: two-sum`).
 
         The automation will:
-        1. Put the file in the right `day-N/` folder
-        2. Name the file from the main function (or problem name)
+        1. Put every file in the chosen `day-N/` folder
+        2. Name each file from its problem name or main function
         3. Clean formatting to match the repo
-        4. Commit + push, then comment on this issue
+        4. Commit + push all of them, then comment on this issue
   - type: dropdown
     id: day_mode
     attributes:
       label: Day folder
-      description: Where should this solution go?
+      description: Where should all solutions in this issue go?
       options:
         - Latest day folder (default)
         - Create next day folder
@@ -31,19 +36,38 @@ body:
       label: Specific day number
       description: Only needed if you chose "Specific day" above (e.g. 19)
       placeholder: "19"
-  - type: input
-    id: problem_name
-    attributes:
-      label: Problem name (optional)
-      description: LeetCode title or preferred filename stem. If empty, the main function name is used.
-      placeholder: merge-sorted-array
   - type: textarea
-    id: code
+    id: solutions
     attributes:
-      label: Solution code
-      description: Paste Python (or notes + code). Pseudocode comments from Excalidraw are OK.
+      label: Solution(s)
+      description: >
+        One or more solutions. Separate problems with a line containing only --- .
+        Optional header per block: # problem-name  or  problem: problem-name
       render: python
       placeholder: |
+        # two-sum
+        def twoSum(self, nums, target):
+            seen = {}
+            for i, n in enumerate(nums):
+                need = target - n
+                if need in seen:
+                    return [seen[need], i]
+                seen[n] = i
+
+        ---
+
+        # contains-duplicate
+        def containsDuplicate(self, nums):
+            seen = set()
+            for n in nums:
+                if n in seen:
+                    return True
+                seen.add(n)
+            return False
+
+        ---
+
+        problem: merge-sorted-array
         class Solution(object):
             def merge(self, nums1, m, nums2, n):
                 ...
@@ -52,6 +76,8 @@ body:
   - type: textarea
     id: notes
     attributes:
-      label: Notes (optional)
-      description: Approach, complexity, or anything else to keep near the solution as comments.
-      placeholder: Two-pointer merge from the end. O(m+n) time, O(1) space.
+      label: Day notes (optional)
+      description: Shared notes for the day, or per-problem notes if you label them clearly.
+      placeholder: |
+        two-sum: hash map O(n)
+        contains-duplicate: set O(n)
